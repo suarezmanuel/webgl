@@ -1,0 +1,59 @@
+<style>
+    @import url("https://webglfundamentals.org/webgl/resources/webgl-tutorials.css");
+    body {
+        margin: 0;
+    }
+    canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+    }
+    #ui {
+        width: 200px;
+    }
+</style>
+
+<script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>        
+<script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+<script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+<script id="vertex-shader-2d" type="notjs">
+    
+    attribute vec2 a_position;
+    uniform vec2 u_resolution;
+    uniform vec2 u_offset;
+    void main() {
+
+        vec2 position = a_position + u_offset;
+        // from [0,res] to [0,1]
+        vec2 zeroToOne = position / u_resolution;
+        // from [0,1] to [0,2]
+        vec2 zeroToTwo = zeroToOne * 2.0;
+        // from [0,2] to [-1,1]
+        vec2 clipSpace = zeroToTwo - 1.0;
+        // this is our output var
+        gl_Position = vec4(clipSpace * vec2(1,-1), 0, 1);
+    }
+
+</script>
+    
+<script id="fragment-shader-2d" type="notjs">
+    
+    precision mediump float;
+    
+    uniform vec4 u_color;
+
+    void main() {
+        gl_FragColor = u_color;
+    }
+    
+</script>
+<canvas id="canvas"></canvas>
+<div id="uiContainer">
+    <div id="uiContainer">
+        <div id="ui">
+            <div id="x"></div>
+            <div id="y"></div>
+        </div>
+    </div>
+</div>
+<script src="./index.js"></script>
